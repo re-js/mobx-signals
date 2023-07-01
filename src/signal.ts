@@ -1,4 +1,4 @@
-import { observable, untracked, computed as mobxComputed, autorun } from 'mobx';
+import { observable, untracked, computed as mobxComputed } from 'mobx';
 import { mutate } from './mutate';
 
 export interface Signal<T> {
@@ -9,6 +9,7 @@ export interface WritableSignal<T> extends Signal<T> {
     (): T,
     set(value: T);
     update(fn: (value: T) => T);
+    mutate(fn: (value: T) => void);
 }
 
 export function signalFactory<T>(value: T, equals?: (a: T, b: T) => boolean): WritableSignal<T> {
@@ -17,7 +18,7 @@ export function signalFactory<T>(value: T, equals?: (a: T, b: T) => boolean): Wr
     const h = box.get.bind(box);
     h.set = box.set.bind(box);
     h.update = (fn: (value: T) => T) => h.set(fn(untracked(h)));
-    h.mutate = mutate.bind(this);
+    h.mutate = mutate.bind(h);
 
     return h;
 }
@@ -26,8 +27,4 @@ export function computedFactory<T>(fn: () => T, equals?: (a: T, b: T) => boolean
     const box = mobxComputed(fn, { equals });
 
     return box.get.bind(box);
-}
-
-export function effect(fn: () => void) {
-    return autorun(fn);
 }

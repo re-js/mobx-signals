@@ -1,6 +1,10 @@
 import { signalFactory, computedFactory } from './signal';
 import { signalDecorator, computedDecorator } from './decorator';
-import { reaction, when as mobxWhen } from 'mobx';
+import { autorun, configure, when as mobxWhen } from 'mobx';
+
+configure({
+    enforceActions: "never",
+});
 
 export const signal = ((a: any, b: any, c: any) => {
     return c
@@ -14,12 +18,8 @@ export const computed = ((a: any, b: any, c: any) => {
         : computedFactory(a, b);
 }) as typeof computedFactory & typeof computedDecorator;
 
-export function on<T>(sender: () => T, subscriber: (value: T) => void, equals?: (a: T, b: T) => boolean) {
-    return reaction(sender, subscriber, { equals });
-}
-
-export function sync<T>(sender: () => T, subscriber: (value: T) => void, equals?: (a: T, b: T) => boolean) {
-    return reaction(sender, subscriber, { fireImmediately: true, equals });
+export function effect(fn: () => void) {
+    return autorun(fn);
 }
 
 export function when(predicate: () => boolean) {

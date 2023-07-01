@@ -1,3 +1,3 @@
-export { effect, type Signal, type WritableSignal } from './signal';
-export { untracked, transaction as batch } from 'mobx';
-export { signal, computed, on, sync, when } from './core';
+export { type Signal, type WritableSignal } from './signal';
+export { untracked, transaction, reaction } from 'mobx';
+export { signal, computed, effect, when } from './core';

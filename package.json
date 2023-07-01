@@ -4,7 +4,7 @@
   "description": "MobX Signals Implementation",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "build": "tsc"
   },
   "repository": {
@@ -25,6 +25,9 @@
     "mobx": "^6.9.0"
   },
   "devDependencies": {
+    "@types/jest": "^29.5.2",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.1",
     "typescript": "^5.1.6"
   }
 }
