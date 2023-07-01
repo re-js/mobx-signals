@@ -71,7 +71,7 @@ counter.set(1);
 // The counter is: 1
 ```
 
-## Enabling decorators 🚀
+## Decorators 🚀
 
 Many existing codebases use decorators, and a lot of the documentation and tutorial material online uses them as well.
 
@@ -96,6 +96,64 @@ class TodoList {
     }
 }
 ```
+
+These decorators do not need "makeObservable" and work in a different way, more similar to previous versions of MobX.
+
+## Additional APIs
+
+The MobX-based library provides an excellent opportunity to export some more handy methods.
+
+### Reactions: `reaction()`
+
+```typescript
+reaction(() => value, (value, previousValue) => void, options?)
+```
+
+`reaction` is like `effect`, but gives more fine grained control on which signals will be tracked. It takes two functions: the first, data function, is tracked and returns the data that is used as input for the second, effect function. It is important to note that the side effect only reacts to data that was accessed in the data function, which might be less than the data that is actually used in the effect function.
+
+The typical pattern is that you produce the things you need in your side effect in the data function, and in that way control more precisely when the effect triggers. By default, the result of the data function has to change in order for the effect function to be triggered. Unlike `effect`, the side effect won't run once when initialized, but only after the data expression returns a new value for the first time.
+
+### Wait for the condition once: `when()`
+
+```typescript
+when(predicate: () => boolean, effect?: () => void, options?)
+when(predicate: () => boolean, options?): Promise
+```
+
+`when` observes and runs the given predicate function until it returns true. Once that happens, the given effect function is executed and the autorunner is disposed.
+
+The `when` function returns a disposer, allowing you to cancel it manually, unless you don't pass in a second effect function, in which case it returns a Promise.
+
+#### await when(...)
+
+If no effect function is provided, when returns a Promise. This combines nicely with async / await to let you wait for changes in observable state.
+
+```typescript
+async function() {
+    await when(() => that.isVisible)
+}
+```
+
+To cancel `when` prematurely, it is possible to call `.cancel()` on the promise returned by itself.
+
+### `untracked()`
+
+```typescript
+untracked(body: () => T): T
+```
+
+Runs a piece of code without establishing observers.
+
+### `transaction()`
+
+```typescript
+transaction(body: () => T): T
+```
+
+Used to batch a bunch of updates without running any reactions until the end of the transaction.
+
+Like `untracked` method, It takes a single, parameterless function as an argument, and returns any value that was returned by it. Note that It runs completely synchronously and can be nested. Only after completing the outermost transaction, the pending reactions will be run.
+
 
 <!--
 Effects do not execute synchronously with the set (see the section on glitch-free execution below), but are scheduled and resolved by the framework. The exact timing of effects is unspecified.
@@ -206,20 +264,6 @@ The consumer can then compare the `valueVersion` of the new value with the one c
 
 ```bash
 npm i mobx-signals
-```
-
-### Exported api
-
-```
-signal
-computed
-effect
-
-untracked
-transaction
-
-reaction
-when
 ```
 
 Enjoy your code!

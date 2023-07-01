@@ -1,6 +1,6 @@
 import { signalFactory, computedFactory, WritableSignal, Signal } from './signal';
 import { signalDecorator, computedDecorator } from './decorator';
-import { autorun, configure, when as mobxWhen } from 'mobx';
+import { autorun, configure } from 'mobx';
 
 configure({
     enforceActions: "never",
@@ -8,7 +8,7 @@ configure({
 
 interface SignalFn {
     <T>(value: T, equals?: (a: T, b: T) => boolean): WritableSignal<T>;
-    <T>(target: object | void, key: PropertyKey | ClassFieldDecoratorContext): void;
+    (target: object | void, key: PropertyKey | ClassFieldDecoratorContext): void;
 }
 export const signal = ((a: any, b: any, c) => {
     if (typeof b === "function" || b === void 0) {
@@ -31,8 +31,3 @@ export const computed = ((a, b, c) => {
 export function effect(fn: () => void) {
     return autorun(fn);
 }
-
-export function when(predicate: () => boolean) {
-    return mobxWhen(predicate);
-}
-
