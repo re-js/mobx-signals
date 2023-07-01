@@ -75,7 +75,7 @@ counter.set(1);
 
 Many existing codebases use decorators, and a lot of the documentation and tutorial material online uses them as well.
 
-```javascript
+```typescript
 import { signal, computed } from "mobx-signals";
 
 class Todo {
