@@ -1,6 +1,6 @@
 # MobX Signals Implementation
 
-```
+```bash
 npm i mobx-signals
 ```
 
@@ -69,6 +69,33 @@ effect(() => console.log('The counter is:', counter()));
 
 counter.set(1);
 // The counter is: 1
+```
+
+### Enabling decorators
+
+Many existing codebases use decorators, and a lot of the documentation and tutorial material online uses them as well.
+
+```javascript
+import { signal, computed } from "mobx-signals";
+
+class Todo {
+    id = Math.random()
+    @signal title = ""
+    @signal finished = false
+
+    toggle() {
+        this.finished = !this.finished
+    }
+}
+
+class TodoList {
+    @signal todos = []
+
+    @computed
+    get unfinishedTodo() {
+        return this.todos.filter(todo => !todo.finished)
+    }
+}
 ```
 
 <!--
@@ -175,3 +202,25 @@ The consumer can then compare the `valueVersion` of the new value with the one c
 `Watch` is a primitive used to build different types of effects. `Watch`es are consumers that run side-effectful functions in their reactive context, but where the scheduling of the side effect is delegated to the implementor. The `Watch` will call this scheduling operation when it receives a notification that it's stale.
 
 -->
+
+### Install
+
+```bash
+npm i mobx-signals
+```
+
+### Exported api
+
+```
+signal
+computed
+effect
+
+untracked
+transaction
+
+reaction
+when
+```
+
+Enjoy your code!
