@@ -1,0 +1,26 @@
+{
+  "name": "mobx-signals",
+  "version": "1.0.0",
+  "description": "MobX Signals Implementation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/betula/mobx-signals.git"
+  },
+  "keywords": [
+    "mobx",
+    "signals"
+  ],
+  "author": "Slava Bereza <mail@betula.co>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/betula/mobx-signals/issues"
+  },
+  "homepage": "https://github.com/betula/mobx-signals#readme",
+  "dependencies": {
+    "mobx": "^6.9.0"
+  }
+}
