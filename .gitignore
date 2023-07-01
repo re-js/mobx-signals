@@ -9,5 +9,8 @@
 !.vscode/extensions.json
 *.code-workspace
 
-#npm
+# npm
 node_modules
+
+# TS
+dist
