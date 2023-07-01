@@ -1,9 +1,9 @@
-import { computed, signal } from './signal';
+import { computedFactory, signalFactory } from './signal';
 
 function defineSignalProperty(obj: object, key: PropertyKey, initializer?: () => unknown) {
     const box = initializer 
-        ? signal(initializer())
-        : signal(undefined);
+        ? signalFactory(initializer())
+        : signalFactory(undefined);
     
     Object.defineProperty(obj, key, {
         get: box,
@@ -29,7 +29,7 @@ export function signalDecorator(_target: object, key: PropertyKey, descriptor: a
 export function computedDecorator(_target: object, key: PropertyKey, descriptor: any) {
     return {
         get() {
-            const box = computed(descriptor.get);
+            const box = computedFactory(descriptor.get);
 
             Object.defineProperty(this, key, { get: box });
             return this[key];

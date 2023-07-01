@@ -16,9 +16,7 @@ This context and getter function mechanism allows for signal dependencies of a c
 
 ### Writable signals: `signal()`
 
-The `signal()` function produces a specific type of signal known as a `WritableSignal`. In addition to being a getter function, `WritableSignal`s have an additional API for changing the value of the signal (along with notifying any dependents of the change). These include the `.set` operation for replacing the signal value, and `.update` for deriving a new value.
-
-<!-- , and `.mutate` for performing internal mutation of the current value. These are exposed as functions on the signal getter itself. -->
+The `signal()` function produces a specific type of signal known as a `WritableSignal`. In addition to being a getter function, `WritableSignal`s have an additional API for changing the value of the signal (along with notifying any dependents of the change). These include the `.set` operation for replacing the signal value, `.update` for deriving a new value, and `.mutate` for performing internal mutation of the current value. These are exposed as functions on the signal getter itself.
 
 ```typescript
 const counter = signal(0);
@@ -27,7 +25,6 @@ counter.set(2);
 counter.update(count => count + 1);
 ```
 
-<!--
 The signal value can be also updated in-place, using the dedicated `.mutate` method:
 
 ```typescript
@@ -37,7 +34,6 @@ todoList.mutate(list => {
   list.push({title: 'One more task', completed: false});
 });
 ```
--->
 
 #### Equality
 
@@ -97,6 +93,7 @@ A major design feature of Angular Signals is that dependency edges (`ReactiveEdg
 To simplify tracking `ReactiveEdge`s via `WeakRef`s, `ReactiveNode`s have numeric IDs generated when they're created. These IDs are used as `Map` keys instead of the tracked node objects, which are instead stored in the `ReactiveEdge` as `WeakRef`s.
 
 At various points during the read or write of signal values, these `WeakRef`s are dereferenced. If a reference turns out to be `undefined` (that is, the other side of the dependency edge was reclaimed by garbage collection), then the dependency `ReactiveEdge` can be cleaned up.
+-->
 
 ## "Glitch Free" property
 
@@ -116,6 +113,7 @@ When `counter` is set to `1`, this invalidates both `evenOrOdd` and the logging 
 
 In this situation, the logging effect's observation of the inconsistent state "1 is even" is known as a _glitch_. A major goal of reactive system design is to prevent such intermediate states from ever being observed, and ensure _glitch-free execution_.
 
+<!--
 ### Push/Pull Algorithm
 
 Angular Signals guarantees glitch-free execution by separating updates to the `ReactiveNode` graph into two phases. The first phase is performed eagerly when a producer value is changed. This change notification is propagated through the graph, notifying consumers which depend on the producer of the potential update. Some of these consumers may be derived values and thus also producers, which invalidate their cached values and then continue the propagation of the change notification to their own consumers, and so on. Other consumers may be effects, which schedule themselves for re-execution.
