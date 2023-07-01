@@ -12,7 +12,7 @@ function defineSignalProperty(obj: object, key: PropertyKey, initializer?: () =>
 }
 
 export function signalDecorator(_target: object, key: PropertyKey, descriptor: any) {
-    const initializer = descriptor.initializer;
+    const initializer = descriptor && descriptor.initializer;
 
     return {
         get() {
@@ -29,7 +29,7 @@ export function signalDecorator(_target: object, key: PropertyKey, descriptor: a
 export function computedDecorator(_target: object, key: PropertyKey, descriptor: any) {
     return {
         get() {
-            const box = computedFactory(descriptor.get);
+            const box = computedFactory(descriptor.get.bind(this));
 
             Object.defineProperty(this, key, { get: box });
             return this[key];

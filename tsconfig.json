@@ -5,7 +5,8 @@
       "outDir": "./dist",
       "moduleResolution": "node",
       "declaration": true,
-      "esModuleInterop": true
+      "esModuleInterop": true,
+      "experimentalDecorators": true
     },
     "include": ["src"]
   }
