@@ -4,7 +4,13 @@
 npm i mobx-signals
 ```
 
-This directory contains the code for MobX's reactive primitive, an implementation of the "signal" concept. A signal is a value which is "reactive", meaning it can notify interested consumers when it changes. There are many different implementations of this concept, with different designs for how these notifications are subscribed to and propagated, how cleanup/unsubscription works, how dependencies are tracked, etc. This document describes the algorithm behind our specific implementation of the signal pattern.
+This directory contains the code for MobX's reactive primitive, an implementation of the "signal" concept. A signal is a value which is "reactive", meaning it can notify interested consumers when it changes. There are many different implementations of this concept, with different designs:
+
+- [Angular Signals](https://github.com/angular/angular/tree/main/packages/core/src/signals)
+- [Preact Signals](https://github.com/preactjs/signals)
+- etc.
+
+This document describes the MobX-based implementation of the signal pattern. **Basically, it totally equals Angular implementation, with an additional few MobX methods**.
 
 ## Conceptual surface
 
@@ -122,11 +128,11 @@ when(predicate: () => boolean, options?): Promise
 
 `when` observes and runs the given predicate function until it returns true. Once that happens, the given effect function is executed and the autorunner is disposed.
 
-The `when` function returns a disposer, allowing you to cancel it manually, unless you don't pass in a second effect function, in which case it returns a Promise.
+The `when` function returns a disposer, allowing you to cancel it manually, unless you don't pass in a second effect function, in which case it returns a `Promise`.
 
-#### `await when(...)`
+#### Promise of `await when(...)`
 
-If no effect function is provided, when returns a Promise. This combines nicely with async / await to let you wait for changes in observable state.
+If no effect function is provided, when returns a `Promise`. This combines nicely with `async` / `await` to let you wait for changes in observable state.
 
 ```typescript
 async function() {
