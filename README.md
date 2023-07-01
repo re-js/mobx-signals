@@ -124,7 +124,7 @@ when(predicate: () => boolean, options?): Promise
 
 The `when` function returns a disposer, allowing you to cancel it manually, unless you don't pass in a second effect function, in which case it returns a Promise.
 
-#### await when(...)
+#### `await when(...)`
 
 If no effect function is provided, when returns a Promise. This combines nicely with async / await to let you wait for changes in observable state.
 
