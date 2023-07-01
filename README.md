@@ -79,21 +79,20 @@ Many existing codebases use decorators, and a lot of the documentation and tutor
 import { signal, computed } from "mobx-signals";
 
 class Todo {
-    id = Math.random()
-    @signal title = ""
-    @signal finished = false
+    @signal title = "";
+    @signal finished = false;
 
     toggle() {
-        this.finished = !this.finished
+        this.finished = !this.finished;
     }
 }
 
 class TodoList {
-    @signal todos = []
+    @signal todos = [];
 
     @computed
     get unfinishedTodo() {
-        return this.todos.filter(todo => !todo.finished)
+        return this.todos.filter(todo => !todo.finished);
     }
 }
 ```
