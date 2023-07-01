@@ -71,7 +71,7 @@ counter.set(1);
 // The counter is: 1
 ```
 
-### Enabling decorators
+## Enabling decorators 🚀
 
 Many existing codebases use decorators, and a lot of the documentation and tutorial material online uses them as well.
 
